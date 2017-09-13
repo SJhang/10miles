@@ -27065,6 +27065,7 @@ var Splash = function (_React$Component) {
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
+      e.preventDefault();
       document.cookie = '';
       if (this.state.nickname) {
         localStorage.setItem('currentUser', this.state.nickname);
@@ -27088,6 +27089,7 @@ var Splash = function (_React$Component) {
               return _this2.handleSubmit(e);
             } },
           _react2.default.createElement('input', {
+            autoFocus: true,
             className: 'nickname',
             type: 'text',
             placeholder: 'Type your name',
@@ -27193,8 +27195,13 @@ var Chat = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Chat.__proto__ || Object.getPrototypeOf(Chat)).call(this, props));
 
     _this.state = {
-      currentUser: localStorage.getItem('currentUser') || ''
+      currentUser: localStorage.getItem('currentUser') || '',
+      users: [],
+      messages: []
     };
+
+    _this._initialize = _this._initialize.bind(_this);
+    _this._messageReceive = _this._messageReceive.bind(_this);
     return _this;
   }
 
@@ -27206,14 +27213,116 @@ var Chat = function (_React$Component) {
     }
   }, {
     key: 'componentDidMount',
-    value: function componentDidMount() {}
+    value: function componentDidMount() {
+      socket.on('init', this._initialize);
+      socket.on('send:message', this._messageReceive);
+      // debugger;
+    }
+  }, {
+    key: '_initialize',
+    value: function _initialize(data) {
+      var users = data.users,
+          name = data.name;
+
+      this.setState({ users: users, user: name });
+    }
+  }, {
+    key: '_messageReceive',
+    value: function _messageReceive(message) {
+      var messages = this.state.messages;
+
+      messages.push(message);
+      this.setState({ messages: messages });
+    }
+  }, {
+    key: 'handleChatSubmit',
+    value: function handleChatSubmit(e) {
+      e.preventDefault();
+      var inputText = document.querySelector('.chat-input').value;
+      var messageObject = {
+        user: this.state.currentUser,
+        message: inputText
+      };
+      var message = JSON.stringify(messageObject);
+      var messages = this.state.messages;
+
+
+      messages.push(message);
+      this.setState({ messages: messages });
+
+      socket.emit('send:message', message);
+
+      e.target.reset();
+      return false;
+    }
+  }, {
+    key: 'renderChatBubble',
+    value: function renderChatBubble(name, text, key, className) {
+      return _react2.default.createElement(
+        'li',
+        { key: key, className: 'chat-bubble-container ' + className },
+        _react2.default.createElement(
+          'div',
+          { className: 'chat-bubble' },
+          _react2.default.createElement(
+            'label',
+            null,
+            name
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            text
+          )
+        )
+      );
+    }
+  }, {
+    key: 'renderChatMessages',
+    value: function renderChatMessages() {
+      var _this2 = this;
+
+      return this.state.messages.map(function (message, idx) {
+        message = JSON.parse(message);
+
+        if (message.user === _this2.state.currentUser) {
+          return _this2.renderChatBubble(_this2.state.currentUser, message.message, idx, 'own-message');
+        } else if (message.user === 'TenmBot') {
+          return _this2.renderChatBubble('TenmBot', message.message, idx, 'bot-message');
+        } else {
+          debugger;
+        }
+      });
+    }
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       return _react2.default.createElement(
         'div',
-        null,
-        'Chat'
+        { className: 'chat-container' },
+        _react2.default.createElement(
+          'form',
+          { className: 'chat-form', onSubmit: function onSubmit(e) {
+              return _this3.handleChatSubmit(e);
+            } },
+          _react2.default.createElement(
+            'ul',
+            { className: 'chat-messages' },
+            this.renderChatMessages()
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'chat-input-container' },
+            _react2.default.createElement('input', { autoFocus: true, type: 'text', className: 'chat-input', placeholder: 'Enter Text here', tabIndex: '1' }),
+            _react2.default.createElement(
+              'button',
+              { type: 'submit', className: 'chat-submit', tabIndex: '2' },
+              _react2.default.createElement('i', { className: 'fa fa-paper-plane', 'aria-hidden': 'true' })
+            )
+          )
+        )
       );
     }
   }]);
@@ -27243,9 +27352,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var About = function About(props) {
   return _react2.default.createElement(
-    'div',
-    null,
-    'About'
+    "div",
+    { className: "about-container" },
+    _react2.default.createElement(
+      "p",
+      null,
+      "Ten Miles is a public online chat room that allows users to talk and share information. I am currently improving this app with features such as private chat room, friend list, and exchanging pictures."
+    )
   );
 };
 
@@ -27271,8 +27384,96 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Contact = function Contact(props) {
   return _react2.default.createElement(
     'div',
-    null,
-    'Contact'
+    { className: 'contact-container' },
+    _react2.default.createElement('img', { src: 'https://res.cloudinary.com/dsetpdsls/image/upload/c_fit,w_280/v1486959067/sonik_xtcmh1.png' }),
+    _react2.default.createElement(
+      'div',
+      { className: 'contact-desc' },
+      _react2.default.createElement(
+        'h1',
+        null,
+        'Sonik Jhang'
+      ),
+      _react2.default.createElement(
+        'p',
+        null,
+        'I am a passionate software engineer who loves to build apps in my free time.'
+      ),
+      _react2.default.createElement(
+        'ul',
+        { className: 'contact-links' },
+        _react2.default.createElement(
+          'li',
+          { className: 'tooltip' },
+          _react2.default.createElement(
+            'a',
+            { href: 'tel:+15128502709' },
+            _react2.default.createElement('i', { className: 'fa fa-mobile fa-1x', 'aria-hidden': 'true' })
+          ),
+          _react2.default.createElement(
+            'span',
+            { className: 'tooltiptext' },
+            'Phone'
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          { className: 'tooltip' },
+          _react2.default.createElement(
+            'a',
+            { href: 'mailto:sonik4595@gmail.com' },
+            _react2.default.createElement('i', { className: 'fa fa-envelope fa-1x', 'aria-hidden': 'true' })
+          ),
+          _react2.default.createElement(
+            'span',
+            { className: 'tooltiptext' },
+            'Email'
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          { className: 'tooltip' },
+          _react2.default.createElement(
+            'a',
+            { href: 'http://www.sonikjhang.com', target: '_blank' },
+            _react2.default.createElement('i', { className: 'fa fa-address-card fa-1x', 'aria-hidden': 'true' })
+          ),
+          _react2.default.createElement(
+            'span',
+            { className: 'tooltiptext' },
+            'Portfolio'
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          { className: 'tooltip' },
+          _react2.default.createElement(
+            'a',
+            { href: 'https://www.github.com/sjhang', target: '_blank' },
+            _react2.default.createElement('i', { className: 'fa fa-github fa-1x', 'aria-hidden': 'true' })
+          ),
+          _react2.default.createElement(
+            'span',
+            { className: 'tooltiptext' },
+            'Github'
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          { className: 'tooltip' },
+          _react2.default.createElement(
+            'a',
+            { href: 'https://www.linkedin.com/in/sonik-jhang', target: '_blank' },
+            _react2.default.createElement('i', { className: 'fa fa-linkedin-square fa-1x', 'aria-hidden': 'true' })
+          ),
+          _react2.default.createElement(
+            'span',
+            { className: 'tooltiptext' },
+            'LinkedIn'
+          )
+        )
+      )
+    )
   );
 };
 

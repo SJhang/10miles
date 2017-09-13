@@ -4,6 +4,7 @@
   height: 100vh;
   align-items: center;
   justify-content: center;
+  font-family: 'Raleway', sans-serif;
 }
 
 /* Splash Page */
@@ -75,3 +76,127 @@
 }
 
 .btn-group a { text-decoration: none; }
+
+/* Chat */
+
+.chat-container {
+  height: 500px;
+  width: 350px;
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+.chat-bubble-container {
+  display: inline-block;
+  padding: 5px;
+  min-height: 30px;
+  text-align: left;
+}
+
+.chat-bubble {
+  float: left;
+  background: white;
+  color: black;
+  padding: 10px;
+  border-radius: 0 10px 10px 10px;
+  border: solid white;
+  clear: both;
+  overflow: scroll;
+}
+
+.chat-bubble label {
+  float: right;
+}
+
+.chat-form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chat-form input { width: 90%; }
+
+.own-message .chat-bubble {
+  border-radius: 10px 0 10px 10px;
+  background: #ddeed5;
+  float: right;
+}
+
+.own-message .chat-bubble h1 {
+  display: none;
+}
+
+.bot-message {
+  text-align: center;
+}
+
+.bot-message .chat-bubble {
+  background: #a0d6ff;
+  border-radius: 10px 10px 10px 10px;
+  float: none;
+}
+
+.bot-message .chat-bubble p {
+  display: flex;
+  justify-content: center;
+}
+
+.bot-message .chat-bubble h1 {
+  display: none;
+}
+/* About */
+
+.about-container {
+  width: 400px;
+  line-height: 2;
+}
+
+/* Contact */
+
+.contact-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.contact-container img { flex: 1; }
+.contact-container > div { flex: 2; text-align: center; }
+
+.contact-desc h1 { font-size: 30px; margin: 5px 0; font-weight: bold; }
+.contact-desc p { margin: 1em 0; font-size: 22px; }
+.contact-desc i { margin-right: 2em; }
+.contact-links {
+  margin: 2em 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip a { font-size: 18px; }
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  position: absolute;
+  z-index: 1;
+  top: 30px;
+  left: -10px;
+}
+
+.tooltip:hover .tooltiptext { visibility: visible; }

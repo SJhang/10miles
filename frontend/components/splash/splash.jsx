@@ -15,6 +15,7 @@ class Splash extends React.Component {
   }
 
   handleSubmit(e) {
+    e.preventDefault();
     document.cookie = '';
     if (this.state.nickname) {
       localStorage.setItem('currentUser', this.state.nickname);
@@ -30,6 +31,7 @@ class Splash extends React.Component {
         <div className="splash-bg"/>
         <form className="splash-form" onSubmit={e => this.handleSubmit(e)}>
           <input
+            autoFocus
             className="nickname"
             type='text'
             placeholder="Type your name"

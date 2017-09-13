@@ -10,8 +10,8 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
-  var userConnected = JSON.stringify({user: "TenmBot", message: "a new user just joined"});
-  var userDisconnected = JSON.stringify({user: "TenmBot", message: "a user just left"});
+  var userConnected = JSON.stringify({user: "TenmBot", message: `a new user just joined`});
+  var userDisconnected = JSON.stringify({user: "TenmBot", message: `a user just left`});
 
   io.emit('send:message', userConnected);
 
