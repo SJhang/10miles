@@ -61,6 +61,7 @@ class Chat extends React.Component {
       <li key={key} className={`chat-bubble-container ${className}`}>
         <div className="chat-bubble">
           <label>{name}</label>
+          <br></br>
           <p>{text}</p>
         </div>
       </li>

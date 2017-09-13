@@ -27269,6 +27269,7 @@ var Chat = function (_React$Component) {
             null,
             name
           ),
+          _react2.default.createElement('br', null),
           _react2.default.createElement(
             'p',
             null,

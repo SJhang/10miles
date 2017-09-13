@@ -130,7 +130,7 @@
   float: right;
 }
 
-.own-message .chat-bubble h1 {
+.own-message .chat-bubble label {
   display: none;
 }
 
@@ -149,7 +149,7 @@
   justify-content: center;
 }
 
-.bot-message .chat-bubble h1 {
+.bot-message .chat-bubble label {
   display: none;
 }
 /* About */
