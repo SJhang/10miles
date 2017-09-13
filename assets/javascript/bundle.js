@@ -27216,7 +27216,6 @@ var Chat = function (_React$Component) {
     value: function componentDidMount() {
       socket.on('init', this._initialize);
       socket.on('send:message', this._messageReceive);
-      // debugger;
     }
   }, {
     key: '_initialize',
@@ -27290,8 +27289,6 @@ var Chat = function (_React$Component) {
           return _this2.renderChatBubble(_this2.state.currentUser, message.message, idx, 'own-message');
         } else if (message.user === 'TenmBot') {
           return _this2.renderChatBubble('TenmBot', message.message, idx, 'bot-message');
-        } else {
-          debugger;
         }
       });
     }

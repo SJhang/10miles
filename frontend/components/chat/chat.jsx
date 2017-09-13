@@ -23,7 +23,6 @@ class Chat extends React.Component {
   componentDidMount() {
     socket.on('init', this._initialize)
     socket.on('send:message', this._messageReceive)
-    // debugger;
   }
 
   _initialize(data) {
@@ -77,8 +76,6 @@ class Chat extends React.Component {
           return (this.renderChatBubble(this.state.currentUser, message.message, idx, 'own-message'));
         } else if (message.user === 'TenmBot') {
           return (this.renderChatBubble('TenmBot', message.message, idx, 'bot-message'));
-        } else {
-          debugger;
         }
       })
     )
